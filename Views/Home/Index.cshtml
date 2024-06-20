@@ -1,0 +1,65 @@
+﻿@model List<Alejandro_Brito.Models.Tarea>
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+
+    @if (User.Identity!.IsAuthenticated)
+    {
+        <h1 class="display 4">
+            Bienvenido @User.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault() @User.Claims.Where(c => c.Type == ClaimTypes.Upn).Select(c => c.Value).SingleOrDefault()
+
+        </h1>
+    }
+
+
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Lista de Tareas</h5>
+    </div>
+    <div class="card-body">
+        <a class="btn btn-success btn-sm" asp-action="Tarea_Detalle" asp-controller="Home" asp-route-idTarea="0">Crear nueva tarea</a>
+        <hr />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Fecha de Creación</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Estado</th>
+                <th></th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@item.Titulo</td>
+                        <td>@item.Descripcion</td>
+                        <td>@item.FechaCreacion</td>
+                        <td>@item.FechaVencimiento</td>
+                        <td>@item.oEstado.Descripcion</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm " asp-action="Tarea_Detalle" asp-controller="Home" asp-route-idTarea="@item.IdTarea"> Editar</a>
+                            <a class="btn btn-danger btn-sm" onclick="confirmDel(event)" asp-action="Eliminar" asp-controller="Home" asp-route-idTarea="@item.IdTarea"> Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function confirmDel(e) {
+        var agree = confirm("¿Realmente deseas eliminar este item?");
+
+        if (agree == false)
+            e.preventDefault();
+    }
+</script>

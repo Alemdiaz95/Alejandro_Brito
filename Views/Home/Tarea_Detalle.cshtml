@@ -1,0 +1,70 @@
+﻿@model Alejandro_Brito.Models.TareaVM
+@{
+    ViewData["Title"] = "Tarea_Detalle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.oTarea.IdTarea == 0)
+{
+
+    <h1>Crear Tarea</h1>
+}
+else
+{
+    <h1>Editar Tarea</h1>
+}
+
+
+<div class="row">
+    <div class="col-sm-4">
+
+        <form asp-action="Tarea_Detalle" asp-controller="Home" method="post">
+            <input type="hidden" asp-for="oTarea.IdTarea" />
+
+            <div class="mb-2">
+                <label class="form-label" asp-for="oTarea.Titulo">Titulo</label>
+                <input class="form-control form-control-sm" asp-for="oTarea.Titulo" type="text" />
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label" asp-for="oTarea.Descripcion">Descripción</label>
+                <input class="form-control form-control-sm" asp-for="oTarea.Descripcion" type="text" />
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label" asp-for="oTarea.FechaCreacion">Fecha de Creación</label>
+                <input class="form-control form-control-sm" asp-for="oTarea.FechaCreacion" type="date" readonly/>
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label" asp-for="oTarea.FechaVencimiento">Fecha de Vencimiento</label>
+                <input class="form-control form-control-sm" asp-for="oTarea.FechaVencimiento" type="date" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="oTarea.Estado">Cargo</label>
+                <select class="form-select form-select-sm" asp-for="oTarea.Estado" asp-items="@Model.oListaEstado">
+                   
+                </select>
+            </div>
+
+            <div class="mb-2">
+
+                @if (Model.oTarea.IdTarea == 0)
+                {
+                    <button class="btn btn-primary btn-sm w-25" type="submit">Crear</button>
+                }
+                else
+                {
+                    <button class="btn btn-primary btn-sm w-25" type="submit">Actualizar</button>
+
+                }
+                <a class="btn btn-dark btn-sm" asp-action="Index" asp-controller="Home">Volver</a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
